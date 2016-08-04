@@ -12,7 +12,12 @@ class CreateAnwsersTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('anwsers', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('word_id');
+            $table->boolean('is_correct');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -22,6 +27,6 @@ class CreateAnwsersTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('anwsers');
     }
 }

@@ -12,7 +12,12 @@ class CreateLessonsTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('lessons', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('user_id');
+            $table->integer('category_id');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -22,6 +27,6 @@ class CreateLessonsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('lessons');
     }
 }

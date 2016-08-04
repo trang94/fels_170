@@ -12,7 +12,13 @@ class CreateResultsTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('results', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('lesson_id');
+            $table->integer('word_id');
+            $table->integer('anwser_id');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -22,6 +28,6 @@ class CreateResultsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('results');
     }
 }
