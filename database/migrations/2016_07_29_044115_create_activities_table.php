@@ -12,7 +12,13 @@ class CreateActivitiesTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('activities', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('user_id');
+            $table->integer('activity_type');
+            $table->integer('target_id');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -22,6 +28,6 @@ class CreateActivitiesTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('activities');
     }
 }

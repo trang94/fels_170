@@ -12,12 +12,11 @@ class CreateRelationshipsTable extends Migration
      */
     public function up()
     {
-        Schema::create('relationships', function (Blueprint $table) {
+        Schema::create('relationships', function (Blueprint $table) 
+        {
             $table->increments('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->rememberToken();
+            $table->integer('follower_id');
+            $table->integer('followed_id');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateRelationshipsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('relationships');
     }
 }
