@@ -17,9 +17,18 @@ Route::get('/', function () {
 
 Route::auth();
 Route::get('/home', 'HomeController@index');
-Route::group(['prefix' => 'admin'], function(){
-    Route::group(['prefix' => 'user'], function(){
-        Route::get('list', 'UserController@getList');
+Route::group(['middleware' => 'auth'], function () {
+    Route::group(['prefix' => 'admin'], function(){
+        Route::group(['prefix' => 'user'], function(){
+            Route::get('list', 'UserController@getList');
+        });
     });
+    Route::resource('user', 'UserController', ['only' => [
+        'show', 'edit', 'update'
+    ]]);
+    Route::resource('relationship', 'RelationshipController', ['only' => [
+        'store', 'destroy'
+    ]]);
+    Route::get('/user/{user}/following', 'UserController@getFollowing');
+    Route::get('/user/{user}/followers', 'UserController@getFollowers');
 });
-Route::resource('user','UserController');

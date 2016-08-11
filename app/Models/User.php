@@ -49,4 +49,8 @@ class User extends Authenticatable
     {
         return $this->following()->where('followed_id', $user->id)->exists();
     }
+
+    public function relationship_with($user){
+        return Relationship::where('follower_id', $this->id)->where('followed_id', $user->id)->get()->first();
+    }
 }

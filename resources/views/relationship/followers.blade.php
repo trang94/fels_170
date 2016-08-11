@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
-@if(Auth::check())
 <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
@@ -37,28 +35,15 @@
                         @endunless
                     </div>
                 </div>
-
                 <div class="panel-body">
-                    <label>Name: </label>
-                    {{$user->name}}
+                    @foreach($followers as $usr)
+                        <h4>
+                            <a href="{{ url('/user/' . $usr->id) }}">{{ $usr->name }}</a>
+                        </h4>
+                    @endforeach
                 </div>
-
-                <div class="panel-body">
-                    <label>Email: </label>
-                    {{$user->email}}
-                </div>
-
             </div>
         </div>
     </div>
 </div>
-@else
-<div class="panel-heading">
-    <label>You are not login!</label>
-    <div>
-        <a href="/login">Login</a>
-    </div>
-</div>
-@endif
-
 @endsection
