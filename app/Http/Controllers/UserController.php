@@ -47,10 +47,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($user)
+    public function show(User $user)
     {
-        $user = User::FindOrFail($user);
-        return view('user.show')->with('user', $user);
+        $followers = $user->followers;
+        $following = $user->following;
+        return view('user.show')->with([
+            'user' => $user,
+            'followers' => $followers,
+            'following' => $following
+        ]);
     }
 
     /**
@@ -101,5 +106,35 @@ class UserController extends Controller
     {
         $user = User::paginate(10);
         return view('admin.user.list', compact('user'));
+    }
+
+    public function getFollowing(User $user)
+    {
+        if ($user == NULL) {
+            return redirect('/');
+        } else {
+            $followers = $user->followers;
+            $following = $user->following;
+            return view('relationship.following', [
+                'user' => $user,
+                'following' => $following,
+                'followers' => $followers
+            ]);
+        }
+    }
+
+    public function getFollowers(User $user)
+    {
+        if ($user == NULL) {
+            return redirect('/');
+        } else {
+            $followers = $user->followers;
+            $following = $user->following;
+            return view('relationship.followers', [
+                'user' => $user,
+                'following' => $following,
+                'followers' => $followers
+            ]);
+        }
     }
 }
