@@ -84,9 +84,15 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        User::find($request->id)->update([
+        $user = User::find($request->id);
+        if ( $user == NULL ) {
+            return redirect('/');
+        }
+
+        $user->update([
             'name' => $request->name,
-            'email' => $request->email,]);
+            'email' => $request->email,
+        ]);
         return redirect(url("/user/$request->id"));
     }
 
@@ -99,13 +105,6 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    //get list user
-    public function getList()
-    {
-        $user = User::paginate(10);
-        return view('admin.user.list', compact('user'));
     }
 
     public function getFollowing(User $user)
