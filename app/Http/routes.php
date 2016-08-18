@@ -17,12 +17,12 @@ Route::get('/', function () {
 
 Route::auth();
 Route::get('/home', 'HomeController@index');
+
 Route::group(['middleware' => 'auth'], function () {
-    Route::group(['prefix' => 'admin'], function(){
-        Route::group(['prefix' => 'user'], function(){
-            Route::get('list', 'UserController@getList');
-        });
+    Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'namespace' => 'Admin'], function(){
+        Route::resource('user', 'UserController');
     });
+
     Route::resource('user', 'UserController', ['only' => [
         'show', 'edit', 'update'
     ]]);
@@ -32,3 +32,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/user/{user}/following', 'UserController@getFollowing');
     Route::get('/user/{user}/followers', 'UserController@getFollowers');
 });
+
+Route::resource('user','UserController');
