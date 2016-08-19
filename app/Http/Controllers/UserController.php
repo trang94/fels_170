@@ -85,7 +85,7 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $user = User::find($request->id);
-        if ( $user == NULL ) {
+        if ($user == NULL) {
             return redirect('/');
         }
 
