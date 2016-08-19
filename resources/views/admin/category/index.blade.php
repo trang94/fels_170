@@ -2,6 +2,15 @@
 
 @section('content')
 <div class="container">
+    @if(session('message'))
+        <div class="alert alert-danger">
+            {{ session('message')}}
+        </div>
+    @elseif (session('success'))
+        <div class="alert alert-success">
+            {{ session('success')}}
+        </div>
+    @endif
     <div class="panel panel-default">
         <div class="panel-heading">
             <h1><strong>Categories list</strong></h1>
@@ -28,12 +37,19 @@
                                 <td>{{ $category->name }}</td>
                                 <td>{{ $category->description }}</td>
                                 <td class="center">
-                                    <i class="fa fa-pencil fa-fw"></i>
-                                    <a href="{{ url('admin/category/' . $category->id . '/edit') }}">Edit</a>
+                                    <a href="{{ url('admin/category/' . $category->id . '/edit') }}" class="btn btn-default">
+                                        <i class="fa fa-pencil fa-fw"></i>Edit
+                                    </a>
                                 </td>
                                 <td class="center">
-                                    <i class="fa fa-trash-o  fa-fw"></i>
-                                    <a href="#">Delete</a>
+                                    <form action="{{ url('admin/category/' . $category->id) }}" method="POST">
+                                        {{ csrf_field() }}
+                                        {{ method_field('DELETE') }}
+
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="fa fa-trash-o  fa-fw"></i>Delete
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach
