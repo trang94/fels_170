@@ -45,11 +45,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        if ($this->isUserNotFoundException($e)) {
-            session('message','Not user Exist');
-            return redirect()->route('list.user');
-        }
-
         return parent::render($request, $e);
     }
 }
