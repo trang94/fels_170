@@ -11,6 +11,8 @@ class User extends Authenticatable
      *
      * @var array
      */
+    const ROLE_MEMBER = 0;
+    const ROLE_ADMIN = 1;
     protected $fillable = ['name', 'email', 'password', 'avatar', 'is_admin',];
 
     /**
@@ -50,7 +52,13 @@ class User extends Authenticatable
         return $this->following()->where('followed_id', $user->id)->exists();
     }
 
-    public function relationship_with($user){
+    public function relationship_with($user)
+    {
         return Relationship::where('follower_id', $this->id)->where('followed_id', $user->id)->get()->first();
+    }
+
+    public function isAdmin()
+    {
+        return ($this->is_admin == User::ROLE_ADMIN);
     }
 }
