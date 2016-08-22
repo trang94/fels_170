@@ -7,9 +7,19 @@ use App\Http\Requests;
 use Auth;
 use App\Models\User;
 use Validator;
+use File;
+use App\Repositories\ImageRepository;
+use App\Policies\UserPolicy;
+use Gate;
 
 class UserController extends Controller
 {
+    public $image;
+
+    public function __construct(ImageRepository $image)
+    {
+        $this->avatar = $image;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -64,15 +74,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($user)
     {
-        $user = Auth::user();
-        if ($id == $user->id) {
-            return view('user.edit')->with('user', $user);
-        }
-        else {
+
+        if (Gate::denies('update', $user)) {
             return redirect('/');
         }
+        return view('user.edit')->with('user', $user);
     }
 
     /**
@@ -84,16 +92,39 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        $user = User::find($request->id);
-        if ($user == NULL) {
-            return redirect('/');
+        $validate = Validator::make($request->all(),['name' => 'min:6|max:25']);
+
+        if ($validate->fails()) {
+            return back()->with('fail', 'Update Profile Fail');
         }
 
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
-        return redirect(url("/user/$request->id"));
+        $img = $request->file('avatar');
+
+        if (User::find($request->id) == null) {
+            return back()->with('fail', 'Not found data :(');
+        } else {
+            if ($img != null) {
+                $destinationPath = public_path('/avatar/');
+                $file = User::find($request->id)->avatar;
+                File::delete($destinationPath.$file);
+                $imagename = $this->avatar->uploadAvatar($img);
+                User::find($request->id)->update([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'avatar' => $imagename,
+                ]);
+            } else {
+                User::find($request->id)->update([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                ]);
+            }
+
+        }
+
+        return redirect(url("/user/$request->id"))
+            ->with('success','Profile Update successful');
+
     }
 
     /**
