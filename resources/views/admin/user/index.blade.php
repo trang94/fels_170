@@ -5,8 +5,12 @@
         <h1><strong>Danh sach nguoi dung</strong></h1>
 
         @if(session('message'))
-            <div class="alert">
+            <div class="alert alert-danger">
                 {{ session('message')}}
+            </div>
+        @elseif (session('success'))
+            <div class="alert alert-success">
+                {{ session('success')}}
             </div>
         @endif
         <table class="table table-bordered">
@@ -43,7 +47,7 @@
                             </button>
                         </form>
                     </td>
-                    <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="{{ url('admin/user/edit/' . $us->id) }}">Edit</a></td>
+                    <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="{{ url('admin/user/' . $us->id) . '/edit' }}">Edit</a></td>
                 </tr>
                 @endforeach
             </tbody>
