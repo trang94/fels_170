@@ -9,6 +9,12 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <label>Profile</label>
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-success alert-block">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @endif
                     @if(Auth::user()->id == $user->id)
                     <div>
                         <a href="/user/{{$user->id}}/edit">Edit</a>
@@ -37,12 +43,20 @@
                         @endunless
                     </div>
                 </div>
-
+                <!--Avatar-->
+                <div class="panel-body">
+                    @if($user->avatar != null)
+                        <img src="/avatar/{{$user->avatar}}" class="image-avatar">
+                    @else
+                        <img src="/avatar/noavatar.png" class="image-avatar">
+                    @endif
+                </div>
+                <!--Name -->
                 <div class="panel-body">
                     <label>Name: </label>
                     {{$user->name}}
                 </div>
-
+                <!--Email-->
                 <div class="panel-body">
                     <label>Email: </label>
                     {{$user->email}}

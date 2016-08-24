@@ -8,18 +8,44 @@
             <div class="panel-heading">
                 Edit Profile
             </div>
+            @if ($message = Session::get('fail'))
+                <div class="fail-alert">
+                    <button type="button" class="close" data-dismiss="alert">×
+                    </button>
+                    <strong>{{ $message }}</strong>
+                </div>
+            @endif
 
             <div class="panel-body">
                 <!-- edit form -->
-                <form action="/user/{user}" method="POST" class="form-horizontal">
+                <form action="/user/{{$user->id}}" method="POST" class="form-horizontal" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     {{ method_field('PATCH') }}
-                    <!-- Name -->
+                    <!-- Avatar -->
                     <div class="form-group">
-                        <label for="task-name" class="col-sm-3 control-label">Name</label>
+                        <label for="avatar" class="col-sm-3 control-label">Avatar
+                        </label>
 
                         <div class="col-sm-6">
-                            <input type="text" name="name" id="task-name" class="form-control" value="{{ $user->name }}">
+                            <label for="file-upload" class="custom-file-upload">
+                                Upload new avatar
+
+                                <input type="file" name="avatar" id="file-upload" class="upload-file" accept="image/*" }}">
+                            </label>
+                        </div>
+                        @if ($errors->has('avatar'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('avatar') }}</strong>
+                            </span>
+                        @endif
+
+                    </div>
+                    <!-- Name -->
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Name</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" name="name" id="name" class="form-control" value="{{ $user->name }}">
                         </div>
                         @if ($errors->has('name'))
                             <span class="help-block">
@@ -31,15 +57,19 @@
 
                     <!-- email -->
                     <div class="form-group">
-                        <label for="task-name" class="col-sm-3 control-label">Email</label>
+                        <label for="email" class="col-sm-3 control-label">Email</label>
                         <div class="col-sm-6">
-                            <input type="text" name="email" id="task-name" class="form-control" value="{{ $user->email }}">
+                            <input type="email" name="email" id="email" class="form-control" value="{{ $user->email }}">
                         </div>
+                        @if ($errors->has('email'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('email') }}</strong>
+                            </span>
+                        @endif
                     </div>
 
                     <!-- User Id -->
                     <input type="hidden" name="id" value="{{ Auth::user()->id }}">
-                    <!-- Add Task Button -->
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-6">
                             <button type="submit" class="btn btn-default">
