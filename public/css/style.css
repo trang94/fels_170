@@ -16,3 +16,13 @@
     background: #ded3d3;
     padding: 12px 12px;
 }
+
+#add-btn:hover, .delete:hover {
+    cursor:pointer;
+}
+.delete:hover {
+    color: red;
+}
+.delete {
+    padding-top: 10px;
+}

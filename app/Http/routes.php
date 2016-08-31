@@ -22,6 +22,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'namespace' => 'Admin'], function(){
         Route::resource('user', 'UserController', ['except' => ['show', 'create']]);
         Route::resource('category', 'CategoryController', ['except' => ['show']]);
+        Route::resource('word', 'WordController', ['except' => ['show']]);
     });
 
     Route::resource('user', 'UserController', ['only' => [
