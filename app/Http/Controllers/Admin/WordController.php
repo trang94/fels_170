@@ -20,7 +20,8 @@ class WordController extends Controller
 
     public function edit(Word $word)
     {
-
+        $categories = Category::all();
+        return view('admin.word.edit', compact('categories','word'));
     }
 
     public function store(Request $request)
@@ -64,13 +65,33 @@ class WordController extends Controller
         return view('admin.word.create', compact('categories'));
     }
 
+
     public function update(Word $word,Request $request)
     {
-
+        $this->validate($request, [
+            'content' => 'required|between:1,255',
+            'category_id' => 'required',
+            'is_anwser' => 'required'
+        ]);
+        $word->checkError($request);
+        $word->content = $request->content;
+        $word->category_id = $request->category_id;
+        $word->save();
+        $word->updateAnswer($request);
+        $word->newAnswer($request,$word);
+        return redirect('/admin/word');
     }
 
     public function destroy(Word $word)
     {
+        $anwsers =Anwser::all();
+        foreach ($anwsers as $anw) {
+            if ($anw->word_id == $word->id) {
+                $anw->delete();
+            }
+        }
 
+        $word->delete();
+        return redirect('admin/word')->with('success','deleted!');
     }
 }

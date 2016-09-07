@@ -23,8 +23,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('user', 'UserController', ['except' => ['show', 'create']]);
         Route::resource('category', 'CategoryController', ['except' => ['show']]);
         Route::resource('word', 'WordController', ['except' => ['show']]);
+        Route::resource('anwser', 'AnwserController', ['only' => ['destroy']]);
     });
-
     Route::resource('user', 'UserController', ['only' => [
         'show', 'edit', 'update'
     ]]);

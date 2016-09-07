@@ -1,7 +1,8 @@
 $(document).ready(function(){
-    var i = 1;
+    var i = parseInt($("#anwsers .anwser_update:last-child .radio-inline input").attr('value'));
 
     $('#add-btn').click(function(){
+
         i = i + 1;
         div = '<div class="form-group">\
             <label for="task-name" class="col-sm-3 control-label">Anwser</label>\
@@ -18,6 +19,23 @@ $(document).ready(function(){
         $('#anwsers').append(div);
         $('.delete').click(function(){
             $(this).parent().remove();
+        });
+    });
+
+    $(".DelButton").on('click',function() {
+        var anwser_id = $(this).data('id');
+        var url = $(this).data('url');
+        var token = $('input[name=_token]').val();
+        $.ajax({
+            url: url,
+            headers: {'X-CSRF-TOKEN': token},
+            type: 'DELETE',
+            success: function (resp) {
+                if (resp.success) {
+                    var id = "#anwser-" + resp.anwser_id;
+                    $(id).remove();
+                }
+            }
         });
     });
 });
