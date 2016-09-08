@@ -9,7 +9,13 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
-                <li><a href="{{ url('/home') }}">Home</a></li>
+                @if (Auth::check() && Auth::user()->isAdmin() == false)
+                    <li><a href="{{ url('/home') }}">HOME</a></li>
+                    <li><a href="{{ url('/') }}">WORD</a></li>
+                    <li><a href="{{ url('/category') }}">CATEGORY</a></li>
+                    <li><a href="{{ url('/') }}">LESSON</a></li>
+                    <li><a href="{{ url('/') }}">USERS</a></li>
+                @endif
             </ul>
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">

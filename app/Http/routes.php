@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('user', 'UserController', ['only' => [
         'show', 'edit', 'update'
     ]]);
+    Route::resource('category', 'CategoryController', ['only' => ['index']]);
     Route::resource('relationship', 'RelationshipController', ['only' => [
         'store', 'destroy'
     ]]);
