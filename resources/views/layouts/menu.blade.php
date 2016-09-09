@@ -3,9 +3,12 @@
     Menu
 </li>
 <li class="list-group-item menu1">
-    <a href="#">Category</a>
+    <a href="{{ url('admin/user') }}"> Users</a>
 </li>
 <li class="list-group-item menu1">
-    <a href="#"> Lesson</a>
+    <a href="{{ url('/admin/category') }}">Categories</a>
+</li>
+<li class="list-group-item menu1">
+    <a href="{{ url('admin/word') }}"> Words</a>
 </li>
 </ul>
