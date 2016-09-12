@@ -38,7 +38,7 @@
                         @endif
                     </td>
                     <td class="center">
-                    <form action="{{ url('admin/user/' . $us->id) }}" method="POST">
+                        <form action="{{ url('admin/user/' . $us->id) }}" method="POST">
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}
 
