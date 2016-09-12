@@ -32,6 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('relationship', 'RelationshipController', ['only' => [
         'store', 'destroy'
     ]]);
+    Route::resource('word', 'WordController', ['only' => 'index']);
     Route::get('/user/{user}/following', 'UserController@getFollowing');
     Route::get('/user/{user}/followers', 'UserController@getFollowers');
 });
